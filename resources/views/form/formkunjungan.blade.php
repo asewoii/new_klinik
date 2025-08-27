@@ -1,9 +1,8 @@
 @extends('layouts.nav_admin')
 @section('content')
-    s
     <div class="container py-1">
         <div class="row g-4">
-            {{-- FORM REGISTRASI --}}
+            {{-- FORM REGISTRASIs --}}
             <div class="col-md-7">
                 <div class="card shadow rounded-4">
                     <div class="card-body">
