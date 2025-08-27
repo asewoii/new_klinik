@@ -1,0 +1,23 @@
+.card {
+    border: none !important;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-default);
+}
+
+.shadow_card {
+    box-shadow: var(--shadow-card);
+    border-radius: 0.5rem;
+}
+
+.judulcard {
+    box-shadow: var(--shadow-card);
+    border-radius: 0.5rem;
+}
+
+.isicard {
+    border: none !important;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-card);
+}
+

@@ -1,0 +1,275 @@
+div.dataTables_wrapper div.dataTables_length select {
+    min-width: 4.5rem;
+    font-weight: 700;
+}
+
+.dataTables_filter {
+    margin-bottom: 1rem;
+}
+
+.dataTables_filter input {
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+    width: 200px !important;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.dataTables_filter input:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+}
+
+/* Kontainer pagination */
+.dataTables_paginate {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: right;
+}
+
+.dataTables_paginate .paginate_button {
+    border: 1px solid #dee2e6;
+    margin: 0 3px;
+    background-color: white;
+    color: #0d6efd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.dataTables_paginate .paginate_button:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* Tombol aktif */
+.dataTables_paginate .paginate_button.current {
+    background-color: #0d6efd;
+    color: white !important;
+    border-color: #0d6efd;
+}
+
+/* Tombol disabled (First, Previous di halaman awal) */
+.dataTables_paginate .paginate_button.disabled {
+    color: #adb5bd !important;
+    cursor: not-allowed;
+    background-color: #f8f9fa;
+}
+
+/* Pagination for DataTables */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    background: var(--bg-medical-white);
+    border: 1px solid var(--blue-border-transparent);
+    color: var(--medical-blue) !important;
+    transition: var(--transition-default);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: var(--medical-blue);
+    color: white !important;
+    border-color: var(--medical-blue);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: var(--gradient-primary);
+    color: white !important;
+    border-color: var(--medical-blue);
+}
+
+.custom-table {
+    background: var(--bg-medical-white);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    border: none;
+    transition: var(--transition-default);
+}
+
+.custom-table th {
+    background: var(--bg-medical-white);
+    color: black;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 1rem 0.75rem;
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+    position: relative;
+    user-select: none;
+    border: none;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.custom-table th:first-child {
+    border-radius: 12px 0 0 0;
+}
+
+.custom-table th:last-child {
+    border-radius: 0 12px 0 0;
+}
+
+/* Body Styling */
+.custom-table td {
+    vertical-align: middle;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 0.875rem;
+    padding: 0.75rem;
+    border: none;
+    border-bottom: 1px solid var(--gray-light);
+    color: var(--text-dark);
+    transition: var(--transition-default);
+}
+
+/* Row hover effects */
+.custom-table tbody tr {
+    transition: var(--transition-default);
+    border: none;
+}
+
+.custom-table tbody tr:hover {
+    background: var(--blue-light-transparent);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.08);
+}
+
+/* Rounded corners for last row */
+.custom-table tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 12px;
+}
+
+.custom-table tbody tr:last-child td:last-child {
+    border-radius: 0 0 12px 0;
+}
+
+.custom-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Column specific styling */
+.custom-table td:first-child,
+.custom-table th:first-child {
+    min-width: 50px;
+    padding-left: 1rem;
+}
+
+.custom-table td:nth-child(-n + 3),
+.custom-table th:nth-child(-n + 3) {
+    min-width: 50px;
+}
+
+.custom-table td:nth-child(4),
+.custom-table th:nth-child(4) {
+    min-width: 50px;
+}
+
+.custom-table td:nth-child(5),
+.custom-table th:nth-child(5) {
+    min-width: 100px;
+}
+
+.custom-table td:nth-child(6),
+.custom-table th:nth-child(6) {
+    min-width: 50px;
+}
+
+/* Button styling within table */
+.custom-table td .btn {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: var(--transition-default);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-table td .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Checkbox styling */
+.custom-table input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    accent-color: var(--medical-blue);
+    cursor: pointer;
+    transition: var(--transition-default);
+}
+
+.custom-table input[type="checkbox"]:hover {
+    transform: scale(1.1);
+}
+
+/* Medical status indicators */
+.custom-table .status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.custom-table .status-normal {
+    background-color: var(--status-normal);
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+}
+
+.custom-table .status-warning {
+    background-color: var(--status-warning);
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+}
+
+.custom-table .status-critical {
+    background-color: var(--status-critical);
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+}
+
+.custom-table .status-info {
+    background-color: var(--status-info);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
+}
+
+.custom-table.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.custom-table.loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--medical-blue);
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.custom-table.dataTable {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.custom-table.dataTable thead th {
+    border-bottom: 2px solid var(--medical-blue);
+}
+
+.custom-table.dataTable tbody td {
+    border-top: none;
+}

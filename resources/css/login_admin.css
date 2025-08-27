@@ -1,0 +1,364 @@
+body {
+    font-family: "Poppins", sans-serif;
+    background: var(--bg-login);
+    color: var(--blue-dark);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container utama (Wrapper 100vh) */
+.container {
+    height: 100vh;
+    padding: 1.5rem !important;
+}
+
+/* Main Container (Card) */
+.main-container {
+    max-width: 1050px;
+    height: 100%;
+    min-height: 600px;
+    box-shadow: var(--shadow-card) !important;
+    border-radius: var(--radius2) !important;
+    overflow: hidden;
+}
+
+/* ==================================== */
+/* LEFT SECTION (MEDICAL INFO)          */
+/* ==================================== */
+.medical-info {
+    position: relative;
+    background: linear-gradient(45deg, black, var(--medical-blue));
+    color: var(--light);
+    padding: var(--padding5);
+    justify-content: space-between !important;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.medical-info::before {
+    content: "";
+    position: absolute;
+    /* Posisikan di tengah elemen parent yang relative */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* PENTING: Atur Z-index agar pola berada di bawah konten (teks/ikon) */
+    z-index: -1;
+
+    /* Pola Radial Gradient (Dot Pattern) */
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.1) 1px,
+        transparent 1px
+    );
+    background-size: 60px 60px;
+
+    /* Untuk memastikan pola menutupi seluruh area 60:40 */
+    background-position: 0 0;
+
+    /* Tambahkan animation untuk efek bergerak */
+    animation: infoPattern 30s linear infinite;
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    gap: 0.5rem;
+    overflow: hidden;
+}
+
+.logo-image {
+    width: 60px;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+}
+
+.clinic-title {
+    font-weight: 700 !important;
+    font-size: 2.2rem;
+}
+
+.deskripsi {
+    margin: 2rem 0;
+}
+
+.clinic-subtitle {
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+.clinic-description {
+    line-height: 1.7;
+    opacity: 0.85;
+}
+
+.features-list li i {
+    color: var(--teal);
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.stats-container {
+    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding-top: 1.5rem !important;
+}
+
+.stat-number {
+    font-weight: 700 !important;
+    color: white !important;
+    font-size: 1.6rem !important;
+}
+
+.stat-label {
+    font-weight: 300;
+    font-size: 0.85rem;
+}
+
+/* ==================================== */
+/* RIGHT SECTION (LOGIN FORM)           */
+/* ==================================== */
+.login-section {
+    background-color: white;
+    padding: var(--padding5) !important;
+    /* Desktop: Radius kanan saja */
+    border-radius: 0 var(--radius2) var(--radius2) 0;
+}
+
+.login-header {
+    margin-bottom: 2.5rem !important;
+}
+
+.login-icon {
+    font-size: 3rem !important;
+    color: var(--deep-blue) !important;
+}
+
+.login-title {
+    font-size: 1.8rem;
+    font-weight: 700 !important;
+}
+
+/* Input Custom Styling */
+.form-label {
+    font-weight: 600 !important;
+    color: var(--blue-dark);
+}
+
+.input-container {
+    background-color: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: var(--radius2) !important;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    min-width: 100% !important;
+    max-width: 100% !important;
+}
+
+.input-container:focus-within {
+    border-color: var(--teal) !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 196, 204, 0.25) !important;
+}
+
+.input-icon {
+    color: #adb5bd !important;
+}
+
+.form-input {
+    background-color: transparent !important;
+    border-radius: var(--radius2) !important;
+}
+
+.form-input:focus {
+    outline: none !important;
+}
+
+.form-input::placeholder {
+    color: #adb5bd;
+    font-size: 0.95rem;
+    border: none !important;
+}
+
+/* Tombol Login */
+.login-btn {
+    padding: 0.8rem !important;
+    font-size: 1.05rem !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    background-color: var(--deep-blue) !important;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.login-btn:hover {
+    background-color: var(--blue) !important;
+}
+.login-btn:active {
+    transform: scale(0.99);
+}
+
+/* ==================================== */
+/* RESPONSIVENESS (MEDIA QUERIES)       */
+/* ==================================== */
+
+/* 1. TABLET/KECIL DESKTOP (Max 1200px) */
+@media (max-width: 1200px) {
+    /* Sedikit kurangi padding di desktop yang lebih kecil */
+    .medical-info,
+    .login-section {
+        padding: var(--padding4) !important;
+    }
+
+    .clinic-title {
+        font-size: 2rem;
+    }
+}
+
+/* 2. TABLET VERTICAL / MOBILE BESAR (Max 992px) */
+@media (max-width: 992px) {
+    /* Aturan 100vh Dihapus: Izinkan scroll di mobile */
+    .container,
+    body {
+        height: auto;
+        min-height: 95vh;
+        overflow: hidden;
+    }
+
+    .main-container {
+        height: auto;
+        min-height: auto;
+        box-shadow: none !important;
+        /* Di tengah layar mobile */
+        max-width: 500px;
+        margin: 0 auto;
+        border-radius: var(--radius2) var(--radius2) 0 0;
+    }
+
+    /* Medical Info Section: Tampilkan sebagai header mobile */
+    .medical-info {
+        display: flex !important;
+        flex-direction: column;
+        text-align: center;
+        padding: var(--padding3) !important;
+        /* Tambahkan radius di bagian atas */
+        border-radius: var(--radius2) var(--radius2) 0 0;
+    }
+
+    .logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .clinic-title {
+        font-size: 1.8rem;
+    }
+
+    .features-list,
+    .stats-container,
+    .deskripsi {
+        display: none !important; /* Sembunyikan detail panjang */
+    }
+
+    /* Login Section: Body card mobile */
+    .login-section {
+        padding: var(--padding3) !important;
+        /* Tambahkan radius di bagian bawah */
+        border-radius: 0 0 var(--radius2) var(--radius2);
+    }
+
+    .login-header {
+        margin-bottom: 1.5rem !important;
+    }
+}
+
+/* 3. MOBILE KECIL (Max 576px) */
+@media (max-width: 576px) {
+    .container {
+        padding: 0 !important;
+        color: var(--light) !important;
+    }
+
+    .main-container {
+        width: 100%;
+        max-width: none;
+        border-radius: 0 !important;
+        color: var(--light);
+        padding: var(--padding5);
+        justify-content: space-between !important;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .main-container::before {
+        content: "";
+        position: absolute;
+        /* Posisikan di tengah elemen parent yang relative */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        /* PENTING: Atur Z-index agar pola berada di bawah konten (teks/ikon) */
+        z-index: -1;
+
+        /* Pola Radial Gradient (Dot Pattern) */
+        background: radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+        );
+        background-size: 60px 60px;
+
+        /* Untuk memastikan pola menutupi seluruh area 60:40 */
+        background-position: 0 0;
+
+        /* Tambahkan animation untuk efek bergerak */
+        animation: infoPattern 30s linear infinite;
+    }
+
+    .medical-info {
+        border-radius: 0 !important;
+        background: transparent !important;
+    }
+
+    .login-section {
+        border-radius: 0 !important;
+        background: transparent !important;
+    }
+
+    .logo {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .logo-image {
+        filter: contrast(0.9);
+    }
+
+    .login-icon {
+        color: var(--light) !important;
+    }
+
+    .form-label {
+        color: var(--light) !important;
+    }
+
+    .login-description {
+        color: var(--teal) !important;
+    }
+}
+
+@keyframes infoPattern {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,37 @@
+# Laravel & PHP
+/vendor
+/.phpunit.cache
+/.phpunit.result.cache
+.env
+.env.*
+storage/*.key
+
+# Laravel build
+/public/hot
+/public/storage
+/public/build
+
+# Node & frontend
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDE/editor lokal
+/.vscode
+/.idea
+/.fleet
+
+# Homestead (jika digunakan)
+Homestead.yaml
+Homestead.json
+
+# Auth/composer
+auth.json
+composer.lock
+
+# Backup dan file temp
+*.bak
+*.backup
+.DS_Store
+Thumbs.db
+

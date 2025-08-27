@@ -1,0 +1,196 @@
+/* ==== [ Notifikasi Lonceng ] ==== */
+.notification-btn {
+    background: var(--overlay-light);
+    border: 1px solid var(--overlay-border);
+    color: var(--bg-medical-white);
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-default);
+    position: relative;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.notification-btn:hover {
+    background: var(--overlay-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.notification-btn:active {
+    transform: translateY(0);
+}
+
+.notification-btn i {
+    font-size: 1.2rem;
+    transition: var(--transition-default);
+}
+
+.notification-btn:hover i {
+    transform: scale(1.1);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--notif-accent-red);
+    color: var(--bg-medical-white);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+    animation: pulse 2s infinite;
+}
+
+/* ==== [ Notifikasi Semua = Animasi Kanan -> Kiri ] ==== */
+.notification-success {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--notif-accent-green);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-medical);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.notification-info {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--notif-accent-blue);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-medical);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.notification-warning {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--notif-accent-yellow);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-medical);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.notification-error {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--notif-accent-red);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-medical);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.notification-list {
+    list-style: none;
+}
+
+.notification-item {
+    border: 1px solid var(--shadow-medical);
+    border-radius: 6px;
+    padding: 5px;
+    margin-bottom: 15px;
+    background-color: var(--bg-medical-white);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.notification-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px var(--shadow-medical);
+}
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.notification-category {
+    font-weight: 500;
+    color: #3498db;
+    display: flex;
+    align-items: center;
+}
+
+.notification-category i {
+    margin-right: 5px;
+}
+
+.notification-content {
+    margin-bottom: 10px;
+}
+
+.notification-text {
+    display: flex;
+    align-items: flex-start;
+}
+
+.notification-text i {
+    margin-right: 5px;
+    color: #e74c3c;
+    margin-top: 3px;
+}
+
+.notification-text strong {
+    font-weight: 500;
+}
+
+.notification-footer {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}
+
+.notification-footer i {
+    margin-right: 5px;
+}
+
+.notification-footer b {
+    color: #7f8c8d;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}

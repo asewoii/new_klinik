@@ -1,0 +1,103 @@
+.border_none {
+    border: none !important;
+}
+
+.text_judul {
+    font-weight: bold;
+    color: var(--text-dark);
+    font-size: 1rem !important;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10px;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-card);
+}
+
+.text_deskripsi {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    text-align: center;
+}
+
+.bagi2 {
+    display: flex;
+    background-color: var(--bg-medical-light);
+    box-shadow: inset 0 -3em 3em white, 0 0 0 2px white,
+        inset 0.3em 0.3em 1em rgba(0, 0, 0, 0.27);
+    padding: 0 4px;
+    border-radius: 0.5rem;
+    text-align: left;
+    border: none;
+}
+
+.kiri_text_deskripsi,
+.kanan_text_deskripsi {
+    width: 50%;
+}
+
+.kiri_text_deskripsi {
+}
+
+.kanan_text_deskripsi {
+}
+
+.isicard {
+    margin-top: -5px;
+}
+
+.icon_card {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--bg-medical-light);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1),
+        -5px -5px 10px rgba(255, 255, 255, 0.8);
+}
+
+.cursor_pointer {
+    cursor: pointer;
+}
+
+.warna_dokter_hi {
+    background-color: var(--category-obgyn);
+    color: var(--text-light);
+}
+
+.table_dashboard_responsive {
+    overflow-x: auto;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.card .badge {
+    font-size: 0.75rem;
+    padding: 0.4em 0.6em;
+}
+
+.wbirus {
+    background-color: #0d6efd;
+}
+
+/* Sembunyikan scroll bar vertikal dan horizontal */
+.dataTables_scrollBody {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+
+.dataTables_scrollBody::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.dataTables_length {
+    display: none !important;
+}
+
+.dataTables_filter {
+    display: none !important;
+}
