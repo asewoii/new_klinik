@@ -45,7 +45,9 @@ Route::middleware('guest')->group(function () {
     Route::post('/verify_pin', [OtpController::class, 'loginpin'])->name('login_pin');
     Route::post('/send_otp', [OtpController::class, 'sendOtp'])->name('send_otp');
     Route::post('/kode_otp', [OtpController::class, 'verifyOtp'])->name('verify_otp');
-    Route::post('/cek_status_pin', [OtpController::class, 'cekStatusPin']);
+    Route::post('/cek_status_pin', [OtpController::class, 'cekStatusPin'])->name('check_status_pin');
+    Route::post('/cek_notlp', [OtpController::class, 'cekNoTlp'])->name('cek_notlp');
+
 
 
     Route::get('/reset-pin', [OtpController::class, 'reset_pin'])->name('reset.pin');

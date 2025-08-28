@@ -38,14 +38,16 @@ class OtpController extends Controller
         $pasien = Pasien::where('No_Tlp', $nomor_telephone)->first();
 
         if (!$pasien) {
-            return response()->json(['status' => 'not_found', 'message' => 'Nomor ini belum terdaftar di sistem kami']);
+            return response()->json([
+                'status' => 'not_found',
+                'message' => 'Nomor ini belum terdaftar di sistem kami']);
         }
 
         // Cek apakah PIN masih kosong
         if (empty($pasien->Pin)) {
             return response()->json([
                 'status' => 'no_pin',
-                'message' => 'Anda belum mengatur PIN. Silakan lakukan reset PIN.'
+                'message' => 'Silakan lakukan reset PIN.'
             ]);
         }
 
@@ -73,8 +75,8 @@ class OtpController extends Controller
         // Hitung percobaan PIN dengan expire
         $failpinKey  = "pin_fail_$nomor_telephone";
         $batasPin = (int) Settings::get('batas_percobaan_pin', 3);
-        $Pencegahan_Brute_Force_Sementara = (int) Settings::get('limit_reset_percobaan', 5); 
-        $Pemblokiran_Akses_Login_Menggunakan_PIN = (int) Settings::get('blokir_menggunakan_pin', 5); 
+        $Pencegahan_Brute_Force_Sementara = (int) Settings::get('limit_reset_percobaan', 5);
+        $Pemblokiran_Akses_Login_Menggunakan_PIN = (int) Settings::get('blokir_menggunakan_pin', 5);
 
 
         if (!Cache::has($failpinKey )) {
@@ -92,7 +94,7 @@ class OtpController extends Controller
 
             return response()->json([
                 'status' => 'to_otp',
-                'message' => "Percobaan PIN salah sebanyak $failpin/$batasPin. Untuk keamanan, silakan gunakan OTP untuk verifikasi.",
+                'message' => "Percobaan PIN salah sebanyak $failpin/$batasPin. ",
                 'redirect_url' => route('verify'),
                 'expire_at' => $expireAt->format('H:i:s')
             ]);
@@ -100,7 +102,7 @@ class OtpController extends Controller
 
         return response()->json([
             'status' => 'wrong_pin',
-            'message' => "Percobaan PIN ke-$failpin dari $batasPin gagal. Demi keamanan, pastikan PIN Anda benar sebelum mencoba kembali."
+            'message' => "Gagal percobaan PIN ke-$failpin dari $batasPin"
         ]);
     }
 
@@ -123,7 +125,7 @@ class OtpController extends Controller
         // === [ 2. Cek apakah sudah verifikasi sebelumnya dan masih dalam durasi aktif ]
         if ($sessionPasien) {
             $lastActivity = $sessionPasien['last_activity'] ?? null;
-            
+
             // === [ 2.1 Cek Session ]
             if($lastActivity  && now()->diffInMinutes(Carbon::parse($lastActivity)) <= 3) {
                 return response()->json([
@@ -137,15 +139,15 @@ class OtpController extends Controller
             }
         }
 
-        // Cek Fonnte Aktif
+        // === [ 3. Cek apakah sistem pengirim OTP aktif ]
         if (!Settings::get('fonnte_active', 1)) {
             return response()->json([
                 'status' => 'fonnte_disabled',
-                'message' => 'Sistem pengirim OTP (Fonnte) sedang off. Tidak dapat memproses permintaan.'
+                'message' => 'Sistem pengirim OTP (Fonnte) sedang off.'
             ]);
         }
 
-        // === [ 3. Cek Data Pasien Ada Apa Tidak! ]
+        // === [ 4. Cek data pasien ]
         if (!$pasien) {
             return response()->json([
                 'status' => 'not_found',
@@ -153,17 +155,30 @@ class OtpController extends Controller
             ]);
         }
 
-        // [4] Batas Pengiriman OTP per Jam
+        // === [ 5. Batas pengiriman OTP per jam ]
         $batas_otp = (int) Settings::get('batas_otp', 5);
         $otp_countkey = "otp_count_$nomor_telephone";
         $otp_count = Cache::get($otp_countkey, 0);
 
         if ($otp_count >= $batas_otp) {
             $start = Cache::get("otp_limit_start_$nomor_telephone");
-            $remaining = 60 - now()->diffInMinutes(Carbon::parse($start));
+            $diffInSeconds = now()->diffInSeconds(Carbon::parse($start));
+
+            $remainingSeconds = max(0, 3600 - $diffInSeconds);
+            $remainingMinutes = floor($remainingSeconds / 60);
+            $remainingHours   = floor($remainingMinutes / 60);
+            $remainingMinutes = $remainingMinutes % 60;
+
+            // Buat teks yang lebih manusiawi
+            if ($remainingHours > 0) {
+                $sisaWaktu = "$remainingHours jam $remainingMinutes menit";
+            } else {
+                $sisaWaktu = "$remainingMinutes menit";
+            }
+
             return response()->json([
-                'status' => 'limit_reached',
-                'message' => "Permintaan OTP telah melebihi batas $batas_otp kali per jam. Coba lagi setelah $remaining menit."
+                'status'  => 'limit_reached',
+                'message' => "OTP melebihi batas $batas_otp kali per jam. Coba lagi setelah $sisaWaktu."
             ]);
         }
 
@@ -174,6 +189,7 @@ class OtpController extends Controller
             Cache::increment($otp_countkey);
         }
 
+        // === [ 6. Cek OTP yang masih tersimpan ]
         if (Cache::has("otp_$nomor_telephone")) {
             // Cek apakah OTP sebelumnya *sudah* berhasil dikirim?
             if (Cache::get("otp_sent_success_$nomor_telephone")) {
@@ -182,34 +198,45 @@ class OtpController extends Controller
                     'message' => 'OTP dikirim via WhatsApp. Harap cek pesan masuk Anda.'
                 ]);
             } else {
-                // Hapus OTP karena sebelumnya gagal kirim
-                Cache::forget("otp_$nomor_telephone");
+                Cache::forget("otp_$nomor_telephone"); // pastikan OTP gagal tidak tersimpan
             }
         }
 
-        // === [ 3. Kirim OTP || Menyimpan OTP dengan Cache selama 1 menit ]
+        // === [ 7. Generate & simpan OTP ]
         $otp = random_int(100000, 999999); // cryptographically secure
         $otp_expire_min = (int) Settings::get('otp_expire_sec', 1);
         Cache::put("otp_$nomor_telephone", $otp, now()->addMinutes($otp_expire_min));
 
-        $fonnte = Settings::get('fonnte_api_key', 'TSFhoz2csa3y4UGobNVD');
-        $response = Http::withHeaders([
-            'Authorization' => $fonnte,
-        ])->asForm()->post('https://api.fonnte.com/send', [
-            'target' => $nomor_telephone,
-            'message' => "PERINGATAN!\nKode OTP $otp bersifat rahasia. Jangan bagikan kepada siapa pun, demi keamanan akun Anda",
-        ]);
+        // === [ 8. Kirim OTP ke Fonnte (retry 3x) ]
+        $fonnte = Settings::get('fonnte_api_key', 'sfmrAXGeMpyt8GyiQN5K');
+        $maxRetry = 3;
+        $response = null;
 
-        if ($response->successful()) {
-            return response()->json(['status' => 'otp_sent']);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Gagal mengirim kode verifikasi. Pastikan koneksi Anda stabil',
-                'debug' => config('app.debug') ? $response->body() : null,
-                'http_code' => $response->status()
-            ], 500);
+        for ($i = 0; $i < $maxRetry; $i++) {
+            $response = Http::withHeaders([
+                'Authorization' => 'sfmrAXGeMpyt8GyiQN5K',
+            ])->asForm()->post('https://api.fonnte.com/send', [
+                'target' => $nomor_telephone,
+                'message' => "PERINGATAN!\nKode OTP $otp bersifat rahasia. Jangan bagikan kepada siapa pun, demi keamanan akun Anda",
+            ]);
+
+            if ($response->successful()) {
+                Cache::put("otp_sent_success_$nomor_telephone", true, now()->addMinutes($otp_expire_min));
+                return response()->json(['status' => 'otp_sent']);
+            }
+
+            sleep(1); // jeda sebelum retry
         }
+
+        // === [ 9. Jika gagal total, hapus OTP agar bisa request ulang ]
+        Cache::forget("otp_$nomor_telephone");
+
+        return response()->json([
+        'status' => 'error',
+        'message' => 'Gagal mengirim kode verifikasi setelah beberapa percobaan. Silakan coba lagi.',
+        'debug' => config('app.debug') && $response ? $response->body() : null,
+        'http_code' => $response ? $response->status() : 500
+    ], 500);
     }
 
     // Verifikasi OTP yang dimasukkan user
@@ -348,7 +375,7 @@ class OtpController extends Controller
             'no_tlp' => 'required|string',
             'kode_otp' => 'required|string'
         ]);
-    
+
         $nomor_telephone = $request->no_tlp;
         $inputOtp = $request->kode_otp;
         $otpData = Cache::get("otp_reset_data_$nomor_telephone");
@@ -360,14 +387,14 @@ class OtpController extends Controller
                 'message' => 'Kode OTP sudah kadaluarsa. Silakan kirim ulang.'
             ]);
         }
-    
+
         if ($otpData && $otpData['otp'] == $inputOtp) {
             Cache::forget("otp_reset_data_$nomor_telephone");
             Session::put("reset_pin_verified_$nomor_telephone", true);
-    
+
             return response()->json(['status' => 'verified']);
         }
-    
+
         return response()->json(['status' => 'invalid', 'message' => 'Kode OTP tidak valid']);
     }
 
@@ -435,5 +462,5 @@ class OtpController extends Controller
     }
 
 
-    
+
 }

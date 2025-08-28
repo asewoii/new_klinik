@@ -95,17 +95,24 @@ document.addEventListener('keydown', function (e) {
 // ==== C. FITUR TOGGLE PASSWORD (Mata 👁️) ==== \\
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Pastikan ID 'togglePassword' adalah button/element yang diklik
     const toggleButton = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
 
-    if (toggleButton && passwordInput) {
+    // Cari elemen input yang memiliki id 'password' atau 'inputPin'
+    // Menggunakan querySelector dengan operator OR (,) di dalam CSS selector
+    const activeInput = document.querySelector('#password, #inputPin');
+
+    if (toggleButton && activeInput) {
         toggleButton.addEventListener('click', function () {
-            // Toggle tipe input
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
+            // Dapatkan tipe input saat ini
+            const currentType = activeInput.getAttribute('type');
 
-            // Toggle ikon di dalam button
+            // Tentukan tipe baru: 'text' jika saat ini 'password', dan sebaliknya
+            const newType = (currentType === 'password') ? 'text' : 'password';
+
+            // Atur tipe input yang baru
+            activeInput.setAttribute('type', newType);
+
+            // Ganti ikon di dalam tombol
             const icon = toggleButton.querySelector('i');
             if (icon) {
                 icon.classList.toggle('fa-eye');

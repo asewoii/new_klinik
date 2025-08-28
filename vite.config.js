@@ -12,6 +12,9 @@ export default defineConfig({
                 // ==== [ Halaman Dashboard Admin ] ==== \\
                 'resources/css/Utama_Dashboard_Admin.css',
                 'resources/js/Utama_Dashboard_Admin.js',
+
+                // ==== [ Halaman Dashboard Admin ] ==== \\
+                'resources/js/Utama_Login_Pasien.js',
             ],
             refresh: true,
         }),
